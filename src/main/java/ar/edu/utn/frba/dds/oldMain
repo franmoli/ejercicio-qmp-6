@@ -1,37 +1,21 @@
-package ar.edu.utn.frba.dds;
+Guardarropa guardarropa;
+    ProveedorDeClimaMock proveedorDeClima;
+    Prenda musculosa;
+    Prenda camisa;
+    Prenda jean;
+    Prenda shorts;
+    Prenda zapatos;
+    Prenda ojotas;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-public class ProveedorDelClimaTest {
-  private Guardarropa guardarropa;
-  private ProveedorDeClimaMock proveedorDeClima;
-  private Prenda musculosa;
-  private Prenda camisa;
-  private Prenda jean;
-  private Prenda shorts;
-  private Prenda zapatos;
-  private Prenda ojotas;
-
-  @BeforeEach
-  void setUpProveedorDelClima() {
     proveedorDeClima = new ProveedorDeClimaMock();
     ServicioMeteorologico servicioMeteorologico = new ServicioMeteorologico(proveedorDeClima);
-    Usuario usuario =
-        new Usuario(34, "Juan Carlos", "Buenos Aires, Argentina", "juancito@gmail.com");
+    Usuario usuario = new Usuario(34, "Juan Carlos", "Buenos Aires, Argentina");
     MotorSugerenciasSegunClima motor = new MotorSugerenciasSegunClima();
     ProveedorDeMotor proveedorDeMotor = new ProveedorDeMotor();
     proveedorDeMotor.setMotor(motor);
     guardarropa = new Guardarropa(usuario, proveedorDeMotor, servicioMeteorologico);
 
-  }
 
-  @BeforeEach
-  public void setUpPrendas() {
     Borrador borradorMusculosa = new Borrador(TipoDePrenda.MUSCULOSA);
     borradorMusculosa.setColorPrincipal(Colores.ROJO);
     borradorMusculosa.setFormalidad(Formalidad.INFORMAL);
@@ -74,11 +58,6 @@ public class ProveedorDelClimaTest {
     borradorOjotas.setTemperaturaMaxima(40);
     ojotas = borradorOjotas.buildPrenda();
 
-
-  }
-
-  @Test
-  void testRecomendarRopaFrescaEnVerano() {
     guardarropa.agregarPrenda(musculosa);
     guardarropa.agregarPrenda(camisa);
     guardarropa.agregarPrenda(jean);
@@ -87,19 +66,13 @@ public class ProveedorDelClimaTest {
     guardarropa.agregarPrenda(ojotas);
 
     proveedorDeClima.setTemperatura(BigDecimal.valueOf(35));
-    List<Atuendo> sugerencias = guardarropa.generarSugerencias(guardarropa.owner);
+    List<Atuendo> sugerencias = guardarropa.generarSugerencias(usuario);
 
+    System.out.println(sugerencias.size());
 
-    //Compruebo que recomiende la musculosa
-    Assertions.assertTrue(
-        sugerencias.stream().anyMatch(a -> a.superior.tipo == TipoDePrenda.MUSCULOSA));
+    for (Atuendo atuendo : sugerencias){
+      System.out.println("Superior: " + atuendo.superior.tipo);
+      System.out.println("Inferior: " + atuendo.inferior.tipo);
+      System.out.println("Calzado: " + atuendo.calzado.tipo);
+    }
 
-    //Compruebo que no recomiende la camisa
-    Assertions.assertFalse(
-        sugerencias.stream().anyMatch(a -> a.superior.equals(camisa)));
-
-
-  }
-
-
-}

@@ -4,6 +4,7 @@ import accuWeatherApi.AccuWeatherAPI;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProveedorAccuWeather implements ProveedorDeClima{
@@ -20,6 +21,11 @@ public class ProveedorAccuWeather implements ProveedorDeClima{
 
     return BigDecimal.valueOf(temperature.get("Unit").equals("F") ?
         (Double) temperature.get("Value") * 5/9 : (Double) temperature.get("Value"));
+  }
+
+
+  public List<String> obtenerAlertasMeteorologicas() {
+    return List.of();
   }
 
   private Map<String, Object> consultarApi(String localidad) {
