@@ -16,9 +16,6 @@ public class MotorSugerenciasSegunClima implements MotorSugerencias {
     List<Prenda> prendasValidas =
         prendas.stream().filter(p -> p.temperaturaMaxima.compareTo(temperatura) > 0).toList();
 
-    for (Prenda prenda : prendasValidas){
-      System.out.println("Prenda: " + prenda.tipo);
-    }
 
     List<Prenda> prendasSuperiores =
         prendasValidas.stream().filter(p -> p.tipo.getCategoria() == CategoriaPrenda.PARTE_SUPERIOR)

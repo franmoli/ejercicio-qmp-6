@@ -69,5 +69,13 @@ public class Guardarropa {
     List<Atuendo> listaDeSugerencias = this.generarSugerencias(owner);
     int randomIndex = random.nextInt(listaDeSugerencias.size());
     this.sugerenciaDiaria = listaDeSugerencias.get(randomIndex);
+    printSujerenciaDiaria();
+  }
+
+  public void printSujerenciaDiaria() {
+    System.out.println("Sujerencia Diaria: armario de" + this.owner.nombre);
+    System.out.println("Prenda Superior" + this.sugerenciaDiaria.superior.getTipo() + " " +
+        this.sugerenciaDiaria.superior.getColorPrincipal());
+
   }
 }
